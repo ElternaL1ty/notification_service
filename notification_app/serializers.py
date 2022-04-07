@@ -1,6 +1,8 @@
 import rest_framework.serializers as sz
-from .models import Client
+from .models import Client, Notification
 from django.core.validators import RegexValidator
+import datetime
+from rest_framework.serializers import ValidationError
 
 
 class ClientSerializer(sz.ModelSerializer):
@@ -13,4 +15,28 @@ class ClientSerializer(sz.ModelSerializer):
     class Meta:
         model = Client
         read_only_fields = ('id',)
+        fields = '__all__'
+
+
+class NotificationSerializer(sz.ModelSerializer):
+    start_datetime = sz.DateTimeField(required=True)
+    end_datetime = sz.DateTimeField(required=True)
+
+    def validate(self, data):
+        try:
+            start = data['start_datetime']
+            end = data['end_datetime']
+            if start.replace(tzinfo=None) < datetime.datetime.now():
+                raise ValidationError({"start_datetime":"Dates are in the past"})
+            if end.replace(tzinfo=None) < datetime.datetime.now():
+                raise ValidationError({"end_datetime":"Dates are in the past"})
+            if end.replace(tzinfo=None)<start.replace(tzinfo=None):
+                raise ValidationError({"end_datetime":"end datetime before start datetime"})
+        except KeyError:
+            raise ValidationError("Dates are required")
+        return data
+
+    class Meta:
+        model = Notification
+        read_only_fields = ('id','start_datetime', 'end_datetime')
         fields = '__all__'

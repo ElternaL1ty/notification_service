@@ -10,7 +10,7 @@ class Client(models.Model):
 
 
 class Notification(models.Model):
-    id = models.IntegerField(primary_key=True, blank=False)
+    id = models.AutoField(primary_key=True, blank=False)
     start_datetime = models.DateTimeField(blank=False)
     end_datetime = models.DateTimeField(blank=False)
     message_text = models.TextField(blank=False)
