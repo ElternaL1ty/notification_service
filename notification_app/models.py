@@ -1,15 +1,12 @@
 from django.db import models
-from django.core.validators import RegexValidator
 
 
 class Client(models.Model):
-    id = models.IntegerField(primary_key=True, blank=False)
-    PhoneValidator = RegexValidator(regex='/^7[0-9]{10}/', message='Телефон должен быть введен в формате 7XXXXXXXXXX')
-    phone = models.CharField(max_length=11, blank=False, validators=[PhoneValidator])
+    id = models.AutoField(primary_key=True, blank=False)
+    phone = models.CharField(max_length=11, blank=False)
     operator_code = models.IntegerField(blank=False)
     tag = models.CharField(max_length=20, blank=False)
-    UtcValidator = RegexValidator(regex='/UTC[+?-][0-9]{1,2}/', message='Часовой пояс вводится в формате UTC-X или UTC-XX')
-    utc = models.CharField(max_length=6, blank=False, validators=[UtcValidator])
+    utc = models.CharField(max_length=6, blank=False)
 
 
 class Notification(models.Model):

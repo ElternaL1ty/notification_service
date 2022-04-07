@@ -31,6 +31,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="notification_service.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -58,7 +59,7 @@
       <option name="presentableId" value="Default" />
       <updated>1649279112562</updated>
       <workItem from="1649279118939" duration="4130000" />
-      <workItem from="1649324023204" duration="2564000" />
+      <workItem from="1649324023204" duration="12589000" />
     </task>
     <servers />
   </component>
