@@ -26,8 +26,6 @@ class NotificationSerializer(sz.ModelSerializer):
         try:
             start = data['start_datetime']
             end = data['end_datetime']
-            if start.replace(tzinfo=None) < datetime.datetime.now():
-                raise ValidationError({"start_datetime":"Dates are in the past"})
             if end.replace(tzinfo=None) < datetime.datetime.now():
                 raise ValidationError({"end_datetime":"Dates are in the past"})
             if end.replace(tzinfo=None)<start.replace(tzinfo=None):
