@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
@@ -13,6 +14,7 @@ import json
 
 
 class ClientViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
     http_method_names = ('get', 'post', 'put', 'delete')
@@ -72,6 +74,7 @@ def start_notification(data):
 
 
 class NotificationViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticated,)
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
     http_method_names = ('get', 'post', 'put', 'delete')
