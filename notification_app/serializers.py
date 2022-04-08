@@ -41,11 +41,16 @@ class NotificationSerializer(sz.ModelSerializer):
 
     def validate(self, data):
         opcode_filter = data['operator_code_filter']
+        tag_filter = data['tag_filter']
+
+        if not isinstance(opcode_filter, list):
+            raise sz.ValidationError({"opcode_filter": "Must be ARRAY"})
+        if not isinstance(tag_filter, list):
+            raise sz.ValidationError({"tag_filter": "Must be ARRAY"})
+
         for i in opcode_filter:
             if not isinstance(i, int):
                 raise sz.ValidationError({"operator_code_filter": "All codes must be INTEGER"})
-
-        tag_filter = data['tag_filter']
         for i in tag_filter:
             if not isinstance(i, str):
                 raise sz.ValidationError({"tag_filter": "All tags must be STRING"})

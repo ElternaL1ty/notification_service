@@ -18,7 +18,7 @@ def _getlist_helper(data):
 @app.task
 def send_message(data, client, obj):
     msg = Message.objects.filter(id=obj['id'])[:1].get()
-    r = requests.post('https://probe.fbrq.cloud/v1/send/' + str(obj['id']), data=json.dumps({
+    r = requests.post('https://probe.fbrq.cloud/v1/sent/' + str(obj['id']), data=json.dumps({
         "id": int(obj['id']),
         "phone": int(Client.objects.filter(id=client)[:1].get().phone),
         "text": Notification.objects.filter(id=data['id'])[:1].get().message_text,
