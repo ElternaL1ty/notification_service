@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    restart: always
+    container_name: 'notification_redis'
+    command: redis-server
+    ports:
+      - '6379:6379'
+  web:
+    image: swaeami/notification_service/notification_service_web
+    build: .
+    restart: always
+    container_name: 'notification_django'
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+  celery:
+    image: swaeami/notification_service/notification_service_celery
+    build: .
+    container_name: 'notification_celery'
+    command: celery -A notification_service worker -P gevent --loglevel=INFO -E
+    volumes:
+      - .:/app
+    links:
+      - redis
+    depends_on:
+      - web
+      - redis
