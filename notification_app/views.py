@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -77,7 +78,9 @@ class NotificationViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
-    http_method_names = ('get', 'post', 'put', 'delete')
+    http_method_names = ('get','post', 'put', 'delete')
+
+
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

@@ -1,6 +1,8 @@
 import rest_framework.serializers as sz
 from django.core.validators import RegexValidator
-from .models import Client, Notification
+from rest_framework import serializers
+
+from .models import Client, Notification, Message
 
 import datetime
 
@@ -23,6 +25,19 @@ class NotificationSerializer(sz.ModelSerializer):
     end_datetime = sz.DateTimeField(required=True)
     operator_code_filter = sz.JSONField(required=True)
     tag_filter = sz.JSONField(required=True)
+    messages = serializers.SerializerMethodField()
+
+    def get_messages(self, obj):
+        data = Message.objects.filter(notification_id=int(obj.id))
+        data_success = data.filter(sending_status="SUCCESS").count()
+        data_error = data.filter(sending_status="ERROR").count()
+        data_queue = data.filter(sending_status="IN QUEUE").count()
+        messages = {
+            "success": data_success,
+            "error": data_error,
+            "in queue": data_queue
+        }
+        return messages
 
     def validate(self, data):
         opcode_filter = data['operator_code_filter']
@@ -45,8 +60,9 @@ class NotificationSerializer(sz.ModelSerializer):
         except KeyError:
             raise sz.ValidationError("Dates are required")
         return data
-
+    
     class Meta:
         model = Notification
         read_only_fields = ('id', 'start_datetime', 'end_datetime')
-        fields = '__all__'
+        fields = ('id','start_datetime','end_datetime','operator_code_filter','tag_filter', 'messages',)
+
