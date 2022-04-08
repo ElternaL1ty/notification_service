@@ -91,5 +91,3 @@ class NotificationViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-def SwaggerView(request):
-    return render(request, 'swagger/index.html')
