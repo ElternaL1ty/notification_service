@@ -1,25 +1,59 @@
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-from .serializers import ClientSerializer, NotificationSerializer
-from .models import Client, Notification
 from rest_framework.response import Response
+
+from .serializers import ClientSerializer, NotificationSerializer
+from .models import Client, Notification, Message
+
 from notification_service.celery import app
+
 from datetime import datetime, timezone
+import requests
+import json
+
 
 class ClientViewSet(ModelViewSet):
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
-    http_method_names = ('get','post','put', 'delete')
+    http_method_names = ('get', 'post', 'put', 'delete')
+
+
+def _getlist_helper(data):
+    res = []
+    for qs in data:
+        for obj in qs:
+            res.append(obj)
+    res = set(res)
+    return res
+
 
 @app.task
-def start_notification():
-    print("Test")
+def start_notification(data):
+    data = json.loads(data)
+    operator_code_list = data['operator_code_filter']
+    clients_by_operator_code__tmp = [] # collecting all querysets as lists of ids...
+    for i in operator_code_list:
+        clients_by_operator_code__tmp.append(list(Client.objects.values_list('id', flat=True).filter(operator_code=i)))
+    clients_op = _getlist_helper(clients_by_operator_code__tmp)
+    # -------------------------------------------------
+    tag_list = data['tag_filter']
+    clients_by_tag__tmp = []
+    for i in tag_list:
+        clients_by_tag__tmp.append(list(Client.objects.values_list('id', flat=True).filter(tag=i)))
+    clients_tag = _getlist_helper(clients_by_operator_code__tmp)
+
+    clients = sorted(list(set(list(clients_tag) + list(clients_op))))
+    for client in clients:
+        obj = Message.objects.create(sending_datetime=datetime.now(), sending_status="IN QUEUE", notification_id=Notification.objects.filter(id=data['id'])[:1].get(), client=Client.objects.filter(id=client)[:1].get())
+        obj.save()
+        # TODO сделать рассылку
+        print(obj.pk)
 
 
 class NotificationViewSet(ModelViewSet):
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
-    http_method_names = ('get','post','put','delete')
+    http_method_names = ('get', 'post', 'put', 'delete')
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -28,5 +62,5 @@ class NotificationViewSet(ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         start_dt = datetime.strptime(request.data['start_datetime'], '%Y-%m-%d %H:%M:%S').astimezone(timezone.utc)
         end_dt = datetime.strptime(request.data['end_datetime'], '%Y-%m-%d %H:%M:%S').astimezone(timezone.utc)
-        start_notification.apply_async(eta=start_dt, expires=end_dt)
+        start_notification.apply_async(args=(json.dumps(serializer.data),), eta=start_dt, expires=end_dt)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

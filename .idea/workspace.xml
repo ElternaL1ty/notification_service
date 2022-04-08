@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cf46f30a-1e73-440e-8a2f-8b4160687e25" name="Default Changelist" comment="" />
+    <list default="true" id="cf46f30a-1e73-440e-8a2f-8b4160687e25" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/notification_app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/notification_app/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/notification_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/notification_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_service/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redis/dump.rdb" beforeDir="false" afterPath="$PROJECT_DIR$/redis/dump.rdb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,7 +19,7 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/notification-service" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="27RNoPwYEEeKMAyS7lLZi7cTnV8" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -59,7 +67,9 @@
       <option name="presentableId" value="Default" />
       <updated>1649279112562</updated>
       <workItem from="1649279118939" duration="4130000" />
-      <workItem from="1649324023204" duration="24337000" />
+      <workItem from="1649324023204" duration="30396000" />
+      <workItem from="1649369896616" duration="106000" />
+      <workItem from="1649370019839" duration="9367000" />
     </task>
     <servers />
   </component>

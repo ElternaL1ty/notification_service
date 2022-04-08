@@ -19,7 +19,7 @@ class Notification(models.Model):
 
 
 class Message(models.Model):
-    id = models.IntegerField(primary_key=True, blank=False)
+    id = models.AutoField(primary_key=True, blank=False)
     sending_datetime = models.DateTimeField(blank=False, auto_now=True)
     sending_status = models.CharField(max_length=10)
     notification_id = models.ForeignKey(Notification, on_delete=models.RESTRICT)

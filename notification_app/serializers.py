@@ -1,8 +1,9 @@
 import rest_framework.serializers as sz
-from .models import Client, Notification
 from django.core.validators import RegexValidator
+from .models import Client, Notification
+
 import datetime
-from rest_framework.serializers import ValidationError
+import json
 
 
 class ClientSerializer(sz.ModelSerializer):
@@ -21,20 +22,32 @@ class ClientSerializer(sz.ModelSerializer):
 class NotificationSerializer(sz.ModelSerializer):
     start_datetime = sz.DateTimeField(required=True)
     end_datetime = sz.DateTimeField(required=True)
+    operator_code_filter = sz.JSONField(required=True)
+    tag_filter = sz.JSONField(required=True)
 
     def validate(self, data):
+        opcode_filter = data['operator_code_filter']
+        for i in opcode_filter:
+            if not isinstance(i, int):
+                raise sz.ValidationError({"operator_code_filter": "All codes must be INTEGER"})
+
+        tag_filter = data['tag_filter']
+        for i in tag_filter:
+            if not isinstance(i, str):
+                raise sz.ValidationError({"tag_filter": "All tags must be STRING"})
+
         try:
             start = data['start_datetime']
             end = data['end_datetime']
             if end.replace(tzinfo=None) < datetime.datetime.now():
-                raise ValidationError({"end_datetime":"Dates are in the past"})
-            if end.replace(tzinfo=None)<start.replace(tzinfo=None):
-                raise ValidationError({"end_datetime":"end datetime before start datetime"})
+                raise sz.ValidationError({"end_datetime": "Dates are in the past"})
+            if end.replace(tzinfo=None) < start.replace(tzinfo=None):
+                raise sz.ValidationError({"end_datetime": "end datetime before start datetime"})
         except KeyError:
-            raise ValidationError("Dates are required")
+            raise sz.ValidationError("Dates are required")
         return data
 
     class Meta:
         model = Notification
-        read_only_fields = ('id','start_datetime', 'end_datetime')
+        read_only_fields = ('id', 'start_datetime', 'end_datetime')
         fields = '__all__'
