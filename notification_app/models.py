@@ -8,6 +8,13 @@ class Client(models.Model):
     tag = models.CharField(max_length=20, blank=False)
     utc = models.CharField(max_length=6, blank=False)
 
+    class Meta:
+        verbose_name = "Клиент",
+        verbose_name_plural = "Клиенты"
+
+    def __str__(self):
+        return str(self.id)
+
 
 class Notification(models.Model):
     id = models.AutoField(primary_key=True, blank=False)
@@ -17,6 +24,13 @@ class Notification(models.Model):
     operator_code_filter = models.JSONField(blank=True, null=True)
     tag_filter = models.JSONField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = "Рассылка",
+        verbose_name_plural = "Рассылки"
+
+    def __str__(self):
+        return str(self.id)
+
 
 class Message(models.Model):
     id = models.AutoField(primary_key=True, blank=False)
@@ -24,3 +38,10 @@ class Message(models.Model):
     sending_status = models.CharField(max_length=10)
     notification_id = models.ForeignKey(Notification, on_delete=models.RESTRICT)
     client = models.ForeignKey(Client, on_delete=models.RESTRICT)
+
+    class Meta:
+        verbose_name = "Сообщение",
+        verbose_name_plural = "Сообщения"
+
+    def __str__(self):
+        return str(self.id)
