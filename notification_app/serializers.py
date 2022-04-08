@@ -3,7 +3,6 @@ from django.core.validators import RegexValidator
 from .models import Client, Notification
 
 import datetime
-import json
 
 
 class ClientSerializer(sz.ModelSerializer):
