@@ -156,6 +156,8 @@ SPECTACULAR_SETTINGS = {
         "name": "MIT License",
         "url": "https://choosealicense.com/licenses/mit/"
     },
-    'VERSION': '1.0'
+    'VERSION': '1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
     # OTHER SETTINGS
 }
