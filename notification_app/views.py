@@ -1,5 +1,5 @@
+from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -80,8 +80,6 @@ class NotificationViewSet(ModelViewSet):
     queryset = Notification.objects.all()
     http_method_names = ('get','post', 'put', 'delete')
 
-
-
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -91,3 +89,7 @@ class NotificationViewSet(ModelViewSet):
         end_dt = datetime.strptime(request.data['end_datetime'], '%Y-%m-%d %H:%M:%S').astimezone(timezone.utc)
         start_notification.apply_async(args=(json.dumps(serializer.data),), eta=start_dt, expires=end_dt)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+def SwaggerView(request):
+    return render(request, 'swagger/index.html')

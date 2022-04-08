@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from celery.schedules import crontab
 
@@ -22,7 +23,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notification_app',
-    'rest_framework'
+    'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
 ]
 
 MIDDLEWARE = [
@@ -40,8 +43,7 @@ ROOT_URLCONF = 'notification_service.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,6 +129,7 @@ REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
   ),
+'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 import datetime
@@ -137,4 +140,22 @@ JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False,
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 
+}
+SPECTACULAR_SETTINGS = {
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'TITLE': 'Notification service',
+    'DESCRIPTION': 'Create and manage notifications for users easily',
+    'CONTACT': {
+        "name": "Nikita Dyakonov",
+        "url": "https://github.com/ElternaL1ty",
+        "email": "swaeami@gmail.com"
+    },
+    'LICENSE': {
+        "name": "MIT License",
+        "url": "https://choosealicense.com/licenses/mit/"
+    },
+    'VERSION': '1.0'
+    # OTHER SETTINGS
 }

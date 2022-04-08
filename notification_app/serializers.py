@@ -60,7 +60,7 @@ class NotificationSerializer(sz.ModelSerializer):
         except KeyError:
             raise sz.ValidationError("Dates are required")
         return data
-    
+
     class Meta:
         model = Notification
         read_only_fields = ('id', 'start_datetime', 'end_datetime')
