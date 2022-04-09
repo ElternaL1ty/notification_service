@@ -1,3 +1,4 @@
+![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) ![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray) ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 # Notification service
 This project is a test task for FR. It is an implementation of a mailing service for users. Stack used: django+sqlite, celery+redis. The project task is at the [link](https://www.craft.do/s/n6OVYFVUpq0o6L)
 
