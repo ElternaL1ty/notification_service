@@ -1,3 +1,5 @@
+import os
+
 from django.forms import model_to_dict
 from notification_service.celery import app
 import requests
@@ -24,7 +26,7 @@ def send_message(data, client, obj):
         "text": Notification.objects.filter(id=data['id'])[:1].get().message_text,
     }),
       headers={
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA2MDg1ODYsImlzcyI6ImZhYnJpcXVlIiwibmFtZSI6IlN3YWVhbWkifQ.qg14tI8ZTKp41NqNETST9cautCCp6WsKgsizX6v-FAc"
+          "Authorization": "Bearer "+str(os.environ.get('API_KEY'))
       })
     if r.status_code == 200:
         print("Message delievered successfully (id: " + str(obj['id']) + ")")

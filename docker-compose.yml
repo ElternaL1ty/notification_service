@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   redis:
     image: redis
@@ -9,24 +8,39 @@ services:
     ports:
       - '6379:6379'
   web:
-    image: swaeami/notification_service:notification_service_web
     build: .
-    restart: always
-    container_name: 'notification_django'
+    image: notification_service_web
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env
+  web_makemigrations:
+    extends:
+      service: web
+    command: python manage.py makemigrations
+  web_migrate:
+    extends:
+      service: web
+    command: python manage.py migrate
+    depends_on:
+      - web_makemigrations
+  web_run:
+    extends:
+      service: web
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
     ports:
-      - '8000:8000'
+      - "8000:8000"
+    depends_on:
+      - web_migrate
   celery:
-    image: swaeami/notification_service:notification_service_celery
-    build: .
-    container_name: 'notification_celery'
+    extends:
+      service: web
+    image: notification_service_celery
     command: celery -A notification_service worker -P gevent --loglevel=INFO -E
-    volumes:
-      - .:/app
     links:
       - redis
     depends_on:
-      - web
+      - web_run
       - redis
+
+
