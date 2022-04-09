@@ -1,3 +1,4 @@
+![Last modified](https://img.shields.io/aur/last-modified/notification_service)
 # Notification service
 This project is a test task for FR. It is an implementation of a mailing service for users. Stack used: django+sqlite, celery+redis. The project task is at the [link](https://www.craft.do/s/n6OVYFVUpq0o6L)
 
