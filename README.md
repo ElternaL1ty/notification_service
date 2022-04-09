@@ -46,8 +46,8 @@ This project provides API to control notifications, messages and clients. Full O
 Note, that you can't get access to any API request without sending Bearer token in request headers. To obtain infinite-time JWT token, send POST request to http://hostname/api/token/ with this body:
 
     {
-    	"username": username,
-    	"password": password,
+      "username": username,
+      "password": password,
     }
 ## Feedback
 - Mail: swaeami@gmail.com
