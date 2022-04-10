@@ -12,8 +12,11 @@ services:
     image: notification_service_web
     volumes:
       - .:/app
-    env_file:
-      - ./.env
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+      - API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA2MDg1ODYsImlzcyI6ImZhYnJpcXVlIiwibmFtZSI6IlN3YWVhbWkifQ.qg14tI8ZTKp41NqNETST9cautCCp6WsKgsizX6v-FAc
   web_makemigrations:
     extends:
       service: web
@@ -42,5 +45,3 @@ services:
     depends_on:
       - web_run
       - redis
-
-
