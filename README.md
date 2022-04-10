@@ -1,6 +1,7 @@
 ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)	![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)	![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 # Notification service
 This project is a test task for FR. It is an implementation of a mailing service for users. Stack used: django+sqlite, celery+redis. The project task is at the [link](https://www.craft.do/s/n6OVYFVUpq0o6L)
+You can create users and send notifications to them, collect summary information and track message statuses
 
 ### Completed side tasks:
 
@@ -17,13 +18,10 @@ First of all, clone this repository in the folder and open it in cmd
 
 Next steps can be done using Docker
 ### With Docker
-- Create a superuser to get JWT token later
+Using Docker, you just need to run one command
 
-	`docker-compose run web python manage.py createsuperuser`
-- Run the project
+`docker-compose up`
 
-	`docker-compose up`
-	
 ### Without docker
 - Install all requirements using pip
 
@@ -41,7 +39,13 @@ Next steps can be done using Docker
 - Run celery in new cmd tab
 
 	`celery -A notification_service worker -P gevent --loglevel=INFO -E`
-	
+
+## Creating super user
+You need to create a superuser to get JWT token
+
+`docker-compose run web python manage.py createsuperuser`
+
+Now you can easily manage users and their notifications using API
 ## API
 This project provides API to control notifications, messages and clients. Full OpenAPI documentation you can see at http://hostname/docs/ after hosting django server
 Note, that you can't get access to any API request without sending Bearer token in request headers. To obtain infinite-time JWT token, send POST request to http://hostname/api/token/ with this body:
